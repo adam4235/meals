@@ -1,0 +1,15 @@
+chooseRecipes.o: chooseRecipes.cpp chooseRecipes.hpp recipe.h mylib.h \
+ mealschedule.hpp meal.hpp location.h read_config.h grocerylist.h
+grocerylist.o: grocerylist.cpp grocerylist.h recipe.h mylib.h location.h \
+ read_config.h
+location.o: location.cpp location.h recipe.h mylib.h read_config.h
+main.o: main.cpp mylib.h recipe.h grocerylist.h location.h read_config.h \
+ chooseRecipes.hpp mealschedule.hpp meal.hpp
+meal.o: meal.cpp meal.hpp recipe.h mylib.h
+mealschedule.o: mealschedule.cpp mealschedule.hpp meal.hpp recipe.h \
+ mylib.h
+mylib.o: mylib.cpp mylib.h
+read_config.o: read_config.cpp read_config.h mylib.h
+recipe.o: recipe.cpp recipe.h mylib.h grocerylist.h
+test_read_config.o: test_read_config.cpp read_config.cpp read_config.h \
+ mylib.h
