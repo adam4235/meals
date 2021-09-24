@@ -23,8 +23,6 @@ private:
 	/**The file in the user's home directory which might
 	 * be the configuration file.*/
 	const static std::filesystem::path HOME_CONFIG_FILE;
-	/**The environment variable for the user's home directory*/
-	const static std::string HOME_DIR;
 	/**The environment variable specifying the configuration file.*/
 	const static std::string CONFIG_ENV_VAR;
 
@@ -39,10 +37,10 @@ private:
 
 	/** Tries to open one of the possible locations for the config file, into strm.
 	 * Returns true on success, false on failure.
-	 * @param envVar an environment variable containing the config file location
+	 * @param envVal an environment variable containing the config file location
 	 * @param useHomeConfigFile if true, envVar is the home directory, and append the
 	 * default file name for the config file to it*/
-	bool openConfigFile(std::string envVar, bool useHomeConfigFile, std::ifstream& strm);
+	bool openConfigFile(std::string envVal, bool useHomeConfigFile, std::ifstream& strm);
 
 	/** Loads the configuration, given the opened file configFile. */
 	void loadConfig(std::ifstream& configFile);

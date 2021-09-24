@@ -142,7 +142,10 @@ int main(int argc, char* argv[]) {
 	vector<string> recipeList;
 	for (std::filesystem::directory_iterator i(config.rcp_path); i != std::filesystem::directory_iterator(); i++)
 		if (!std::filesystem::is_directory(*i))
-			recipeList.push_back(i->path().stem().native());
+		{
+			std::filesystem::path theRecipe = i->path().stem();
+			recipeList.push_back(theRecipe.string());
+		}
 
 	if (recipeList.size() == 0) {
 		cerr << "Error: no recipe files were found.";

@@ -9,7 +9,6 @@ using namespace std;
 using namespace filesystem;
 
 const path Config::HOME_CONFIG_FILE = path(".recipes");
-const string Config::HOME_DIR = "HOME";
 const string Config::CONFIG_ENV_VAR = "RECIPE_CONFIG";
 
 /*Replace environment variables with their values
@@ -39,9 +38,8 @@ string repEnvVars(string value)
 	return value;
 }
 
-bool Config::openConfigFile(string envVar, bool useHomeConfigFile, ifstream& strm)
+bool Config::openConfigFile(string envVal, bool useHomeConfigFile, ifstream& strm)
 {
-	string envVal = getenv(envVar);  //envVar's value
 	if (envVal == "") return false;
 	else
 	{
@@ -71,22 +69,28 @@ Config::Config()
 
 void Config::init()
 {
+	char* homeEnv = getenv("HOME");
+	if (homeEnv == NULL) {
+		homeEnv = getenv("USERPROFILE");
+	}
 	ifstream homeFile, envFile;
 	//if $HOME is defined, first check for $HOME/.recipes
-	if (openConfigFile(HOME_DIR, true, homeFile))
+	if (homeEnv != NULL && openConfigFile(homeEnv, true, homeFile)) {
 		loadConfig(homeFile);
-	//otherwise, check for $RECIPE_CONFIG
-	else if (openConfigFile(CONFIG_ENV_VAR, false, envFile))
-		loadConfig(envFile);
-	else
-	{
-		//We don't throw here because you can't catch an exception if a static
-		//initialization throws it
-		cerr << "Couldn't find configuration file.\n" 
-			"It must be in either $" << HOME_DIR << 
-			"/.recipes or $" << CONFIG_ENV_VAR << ".\nExiting.\n";
-		exit(1);
+		return;
 	}
+	//otherwise, check for $RECIPE_CONFIG
+	else if (char* configEnv = getenv("RECIPE_CONFIG")) {
+		if (openConfigFile(configEnv, false, envFile)) {
+			loadConfig(envFile);
+			return;
+		}
+	}
+	//We don't throw here because you can't catch an exception if a static
+	//initialization throws it
+	cerr << "Couldn't find configuration file.\n" 
+		"It must be in either $HOME/.recipes or $" << CONFIG_ENV_VAR << ".\nExiting.\n";
+	exit(1);
 }
 
 void Config::loadConfig(ifstream& configFile)
