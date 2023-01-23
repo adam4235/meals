@@ -143,8 +143,10 @@ int main(int argc, char* argv[]) {
 	for (std::filesystem::directory_iterator i(config.rcp_path); i != std::filesystem::directory_iterator(); i++)
 		if (!std::filesystem::is_directory(*i))
 		{
-			std::filesystem::path theRecipe = i->path().stem();
-			recipeList.push_back(theRecipe.string());
+            if (i->path().extension() == ".txt" || i->path().extension() == ".rcp") {
+                std::filesystem::path theRecipe = i->path().stem();
+                recipeList.push_back(theRecipe.string());
+            }
 		}
 
 	if (recipeList.size() == 0) {
