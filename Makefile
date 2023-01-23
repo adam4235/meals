@@ -1,5 +1,4 @@
 #g++ version 7 doesn't have support for std::filesystem
-CXX=g++-8
 CXXFLAGS=-Wall -g2 -std=c++17 #-arch i386 -arch ppc
 obj =  main.o mylib.o recipe.o grocerylist.o location.o chooseRecipes.o meal.o mealschedule.o read_config.o
 
