@@ -62,8 +62,12 @@ void groceryList(vector<Recipe> & recipesChosen, bool allRecipes)
 	//if the user has specified a file for the grocery list
 	{
 		ofstream ingredients_txt(config.rcp_groceries);
-		ingredients_txt << "Grocery list" << endl << list;
-		cout << "File " << config.rcp_groceries << " written successfully.\n";
+        if (ingredients_txt) {
+            ingredients_txt << "Grocery list" << endl << list;
+            cout << "File " << config.rcp_groceries << " written successfully.\n";
+        } else {
+            cout << "File " << config.rcp_groceries << " could not be written to.\n";
+        }
 	}
 }
 
