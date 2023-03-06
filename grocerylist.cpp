@@ -68,6 +68,8 @@ void GroceryList::addIngredientsOf(Recipe& recipe, bool allRecipes)
                     cout << j << ") " << i->alternatives[j] << "\n";
                 }
                 cin >> choice;
+            } else {
+                continue;
             }
 		}
 		else 
